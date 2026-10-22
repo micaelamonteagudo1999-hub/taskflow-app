@@ -1,16 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+import HomeScreen from './src/screens/HomeScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
 
 export default function App() {
+  const [screen, setScreen] = useState('home');
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>TaskFlow</Text>
+      <View style={styles.content}>
+        {screen === 'home' ? <HomeScreen /> : <ProfileScreen />}
+      </View>
 
-      <Text style={styles.subtitle}>
-        Checkpoint 1: Estructura Base
-      </Text>
+      <View style={styles.buttons}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setScreen('home')}
+        >
+          <Text style={styles.buttonText}>Inicio</Text>
+        </TouchableOpacity>
 
-      <StatusBar style="auto" />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setScreen('profile')}
+        >
+          <Text style={styles.buttonText}>Mi perfil</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -18,20 +36,29 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8F0FE',
-    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+  content: {
+    flex: 1,
+  },
+  buttons: {
+    flexDirection: 'row',
     justifyContent: 'center',
+    paddingTop: 12,
+    paddingBottom: 100,
+    backgroundColor: '#FFFFFF',
+    borderTopWidth: 1,
+    borderTopColor: '#E5E7EB',
   },
-
-  title: {
-    fontSize: 32,
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginHorizontal: 20,
+    backgroundColor: '#4F46E5',
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: '#FFFFFF',
     fontWeight: 'bold',
-    color: '#1F2937',
-  },
-
-  subtitle: {
-    marginTop: 10,
-    fontSize: 18,
-    color: '#4B5563',
   },
 });
