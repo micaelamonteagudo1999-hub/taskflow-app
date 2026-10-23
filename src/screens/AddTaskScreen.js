@@ -15,7 +15,7 @@ import {
 
 import COLORS from '../constants/colors';
 
-const AddTaskScreen = () => {
+const AddTaskScreen = ({ onAddTask }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Estudio');
@@ -60,16 +60,17 @@ const AddTaskScreen = () => {
     }
 
     const newTask = {
-      title: title.trim(),
-      description: description.trim(),
-      category: category,
-      createdAt: new Date(),
-    };
+  id: Date.now().toString(),
+  title: title.trim(),
+  description: description.trim(),
+  category: category,
+  createdAt: new Date(),
+};
+if (onAddTask) {
+  onAddTask(newTask);
+}
 
-    console.log('Tarea creada:', newTask);
-
-    Alert.alert('Éxito', 'Tarea capturada localmente');
-
+Alert.alert('Éxito', 'Tarea creada correctamente');
     setTitle('');
     setDescription('');
     setCategory('Estudio');
@@ -205,6 +206,7 @@ const styles = StyleSheet.create({
   content: {
     padding: 24,
     paddingBottom: 40,
+    paddingTop: 80,
   },
   title: {
     fontSize: 28,

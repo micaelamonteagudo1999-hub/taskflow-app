@@ -5,12 +5,33 @@ import {
   Text,
   StyleSheet,
   SafeAreaView,
+  FlatList,
+  TouchableOpacity,
 } from 'react-native';
 
 import ProfileCard from '../components/ProfileCard';
 import COLORS from '../constants/colors';
 
-const HomeScreen = () => {
+const HomeScreen = ({ tasks, onSelectTask }) => {
+  const renderTask = ({ item }) => {
+    return (
+      <TouchableOpacity
+        style={styles.taskCard}
+        onPress={() => onSelectTask(item)}
+      >
+        <Text style={styles.taskTitle}>{item.title}</Text>
+
+        <Text style={styles.taskDescription} numberOfLines={2}>
+          {item.description}
+        </Text>
+
+        <Text style={styles.taskCategory}>
+          Categoría: {item.category}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
@@ -26,19 +47,23 @@ const HomeScreen = () => {
           image="https://i.pravatar.cc/150?img=47"
         />
 
-        <Text style={styles.sectionTitle}>
-          Mis tareas
-        </Text>
+        <Text style={styles.sectionTitle}>Mis tareas</Text>
 
-        <View style={styles.emptyCard}>
-          <Text style={styles.emptyTitle}>
-            Todavía no hay tareas
-          </Text>
-
-          <Text style={styles.emptyText}>
-            Aquí podrás organizar tus próximas actividades.
-          </Text>
-        </View>
+        {tasks.length === 0 ? (
+          <View style={styles.emptyCard}>
+            <Text style={styles.emptyText}>
+              ¡No tienes tareas pendientes! Empieza por crear una arriba.
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            data={tasks}
+            renderItem={renderTask}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.list}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
@@ -51,7 +76,9 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 24,
+    paddingHorizontal: 24,
+  paddingTop: 80,
+  paddingBottom: 24,
   },
   title: {
     fontSize: 30,
@@ -77,16 +104,38 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border,
   },
-  emptyTitle: {
-    fontSize: 16,
+  emptyText: {
+    fontSize: 15,
+    lineHeight: 22,
+    color: COLORS.textSecondary,
+  },
+  list: {
+    paddingBottom: 20,
+  },
+  taskCard: {
+    backgroundColor: COLORS.cardBackground,
+    padding: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    marginBottom: 12,
+  },
+  taskTitle: {
+    fontSize: 17,
     fontWeight: 'bold',
     color: COLORS.text,
     marginBottom: 8,
   },
-  emptyText: {
+  taskDescription: {
     fontSize: 14,
-    lineHeight: 21,
+    lineHeight: 20,
     color: COLORS.textSecondary,
+    marginBottom: 10,
+  },
+  taskCategory: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    color: COLORS.primary,
   },
 });
 

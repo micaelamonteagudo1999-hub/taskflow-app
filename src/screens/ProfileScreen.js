@@ -48,7 +48,9 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 24,
+     paddingHorizontal: 24,
+     paddingTop: 80,
+     paddingBottom: 24,
   },
   title: {
     fontSize: 28,
