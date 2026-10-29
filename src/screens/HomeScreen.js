@@ -12,23 +12,28 @@ import {
 import ProfileCard from '../components/ProfileCard';
 import COLORS from '../constants/colors';
 
-const HomeScreen = ({ tasks, onSelectTask }) => {
+const HomeScreen = ({ tasks, navigation }) => {
   const renderTask = ({ item }) => {
     return (
       <TouchableOpacity
-        style={styles.taskCard}
-        onPress={() => onSelectTask(item)}
-      >
-        <Text style={styles.taskTitle}>{item.title}</Text>
+  style={styles.taskCard}
+  onPress={() =>
+    navigation.navigate('TaskDetail', {
+      taskId: item.id,
+      task: item,
+    })
+  }
+>
+  <Text style={styles.taskTitle}>{item.title}</Text>
 
-        <Text style={styles.taskDescription} numberOfLines={2}>
-          {item.description}
-        </Text>
+  <Text style={styles.taskDescription} numberOfLines={2}>
+    {item.description}
+  </Text>
 
-        <Text style={styles.taskCategory}>
-          Categoría: {item.category}
-        </Text>
-      </TouchableOpacity>
+  <Text style={styles.taskCategory}>
+    Categoría: {item.category}
+  </Text>
+</TouchableOpacity>
     );
   };
 
@@ -48,7 +53,12 @@ const HomeScreen = ({ tasks, onSelectTask }) => {
         />
 
         <Text style={styles.sectionTitle}>Mis tareas</Text>
-
+         <TouchableOpacity
+         style={styles.addButton}
+         onPress={() => navigation.navigate('TaskForm')}
+         >
+         <Text style={styles.addButtonText}>+ Crear tarea</Text>
+       </TouchableOpacity>
         {tasks.length === 0 ? (
           <View style={styles.emptyCard}>
             <Text style={styles.emptyText}>
@@ -137,6 +147,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: COLORS.primary,
   },
+
+  addButton: {
+  backgroundColor: COLORS.primary,
+  padding: 14,
+  borderRadius: 10,
+  alignItems: 'center',
+  marginBottom: 16,
+},
+addButtonText: {
+  color: '#FFFFFF',
+  fontWeight: 'bold',
+  fontSize: 15,
+},
 });
 
 export default HomeScreen;

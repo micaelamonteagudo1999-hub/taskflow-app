@@ -6,16 +6,16 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Alert,
 } from 'react-native';
+
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import COLORS from '../constants/colors';
 
-const AddTaskScreen = ({ onAddTask }) => {
+const AddTaskScreen = ({ onAddTask, navigation }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Estudio');
@@ -52,6 +52,7 @@ const AddTaskScreen = ({ onAddTask }) => {
     descriptionError === '' &&
     category !== '';
 
+ 
   const handleAddTask = () => {
     setSubmitted(true);
 
@@ -60,26 +61,31 @@ const AddTaskScreen = ({ onAddTask }) => {
     }
 
     const newTask = {
-  id: Date.now().toString(),
-  title: title.trim(),
-  description: description.trim(),
-  category: category,
-  createdAt: new Date(),
-};
-if (onAddTask) {
-  onAddTask(newTask);
-}
+      id: Date.now().toString(),
+      title: title.trim(),
+      description: description.trim(),
+      category: category,
+      createdAt: new Date(),
+    };
 
-Alert.alert('Éxito', 'Tarea creada correctamente');
+    if (onAddTask) {
+      onAddTask(newTask);
+    }
+
     setTitle('');
     setDescription('');
     setCategory('Estudio');
+
     setTouched({
       title: false,
       description: false,
     });
+
     setSubmitted(false);
+
+    navigation.navigate('TaskList');
   };
+
 
   return (
     <SafeAreaView style={styles.container}>
